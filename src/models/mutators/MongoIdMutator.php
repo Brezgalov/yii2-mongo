@@ -4,6 +4,12 @@ namespace Brezgalov\Yii2Mongo\Models\Mutators;
 
 use MongoDB\BSON\ObjectId;
 
+/**
+ * Class MongoIdMutator
+ * Преобразует MongoId в string
+ *
+ * @package Brezgalov\Yii2Mongo\Models\Mutators
+ */
 class MongoIdMutator extends BaseMutator
 {
     public $fields = ['_id' => 'id'];

@@ -4,6 +4,15 @@ namespace Brezgalov\Yii2Mongo\Models\Mutators;
 
 use yii\db\ActiveRecord;
 
+/**
+ * Class ModelMutator
+ * bool $array - поле содержит массив объектов ?
+ * string $target_class - тип объекта, который необходимо инстанцировать
+ * string $target_attribute - поле, по которому проводится идентификация объектов
+ * bool|array|string $as_array - если нужно вернуть объект в виде массива - true, если нужны конкретные поля - формат удволетворяющий ActiveQuery::select
+ *
+ * @package Brezgalov\Yii2Mongo\Models\Mutators
+ */
 class ModelMutator extends BaseMutator
 {
     /**
@@ -22,8 +31,6 @@ class ModelMutator extends BaseMutator
     public $target_attribute = 'id';
 
     /**
-     * false, если не преобразовывать
-     * Массив, если нужно преобразовать в масссив - значение передается в ->select($asArray)->asArray()->all();
      * @var bool|array|string
      */
     public $as_array = false;

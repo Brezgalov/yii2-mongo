@@ -4,6 +4,15 @@ namespace Brezgalov\Yii2Mongo\Models\Mutators;
 
 use yii\base\Model;
 
+/**
+ * Class BaseMutator
+ * bool $perform_once - после первой мутации данных - прекратить мутировать
+ * array $fields - какие поля подвергнуть мутации
+ * bool $skipMissingKeys - не пытаться мутировать, если поле отсутствует в данных
+ * bool $dropOldKey - если поле было переименованно - удалить старое значение из данных
+ *
+ * @package Brezgalov\Yii2Mongo\Models\Mutators
+ */
 abstract class BaseMutator extends Model
 {
     /**

@@ -2,6 +2,12 @@
 
 namespace Brezgalov\Yii2Mongo\Models\Mutators;
 
+/**
+ * Class DateTimeMutator
+ * Преобразует введенную дату в DateTime, если может
+ *
+ * @package Brezgalov\Yii2Mongo\Models\Mutators
+ */
 class DateTimeMutator extends BaseMutator
 {
     protected function performMutate($field, array &$data, $newFieldName)
@@ -11,6 +17,5 @@ class DateTimeMutator extends BaseMutator
         } catch (\Exception $ex) {
             $data[$newFieldName] = $data[$field];
         }
-
     }
 }
