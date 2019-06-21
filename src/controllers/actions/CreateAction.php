@@ -14,7 +14,10 @@ class CreateAction extends \yii\rest\CreateAction
         $model = new $modelClass($args);
 
         $model->load(\Yii::$app->request->getBodyParams(), '');
-        $model->save();
+        $model->validate();
+        if (!$model->hasErrors()) {
+            $model->save();
+        }
 
         return $model;
     }

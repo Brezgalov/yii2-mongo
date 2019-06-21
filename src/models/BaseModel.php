@@ -2,7 +2,7 @@
 
 namespace Brezgalov\Yii2Mongo\Models;
 
-use app\modules\info\models\mongo\Manager;
+use Brezgalov\Yii2Mongo\Manager;
 use Brezgalov\Yii2Mongo\Models\Mutators\MongoIdMutator;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\Command;

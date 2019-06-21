@@ -2,7 +2,6 @@
 
 namespace Brezgalov\Yii2Mongo\Models\Mutators;
 
-use app\modules\info\models\ActiveRecordsCache;
 use yii\db\ActiveRecord;
 
 class ModelMutator extends BaseMutator
@@ -23,14 +22,16 @@ class ModelMutator extends BaseMutator
     public $target_attribute = 'id';
 
     /**
+     * false, если не преобразовывать
+     * Массив, если нужно преобразовать в масссив - значение передается в ->select($asArray)->asArray()->all();
+     * @var bool|array|string
+     */
+    public $as_array = false;
+
+    /**
      * @var bool
      */
     protected $skipMissingKeys = false;
-
-    /**
-     * @var ActiveRecordsCache
-     */
-    protected $cache;
 
     /**
      * ModelMutator constructor.
@@ -39,9 +40,6 @@ class ModelMutator extends BaseMutator
     public function __construct(array $config = [])
     {
         parent::__construct($config);
-        $this->cache = new ActiveRecordsCache([
-            'id_field' => $this->target_attribute,
-        ]);
     }
 
     /**
@@ -87,14 +85,7 @@ class ModelMutator extends BaseMutator
             $data[$field] = [ $data[$field] ];
         }
 
-        $newVals = [];
-        foreach ($data[$field] as $id) {
-            $instance = $this->cache->findItem($this->target_class, $id);
-            if ($instance) {
-                $newVals[] = $instance;
-            }
-        }
-        $data[$newFieldName] = $newVals;
+        $data[$newFieldName] = $this->getItems($data[$field]);
     }
 
     /**
@@ -109,14 +100,33 @@ class ModelMutator extends BaseMutator
         }
 
         $attr = $this->target_attribute;
-        $newVals = [];
+        $ids = [];
         foreach ($data[$field] as $item) {
             if ($item instanceof \stdClass || $item instanceof ActiveRecord) {
-                $newVals[] = $this->cache->findItem($this->target_class, @$item->{$attr});
+                $ids[] = @$item->{$attr};
             } elseif (is_array($data[$field])) {
-                $newVals[] = $this->cache->findItem($this->target_class, @$item[$attr]);
+                $ids[] = @$item[$attr];
             }
         }
-        $data[$newFieldName] = $newVals;
+        $data[$newFieldName] = $this->getItems($ids);
+    }
+
+    /**
+     * @param $ids
+     * @return mixed
+     */
+    protected function getItems($ids)
+    {
+        $class = $this->target_class;
+        $query = $class::find();
+        $useArrays = (bool)$this->as_array;
+        if ($useArrays and is_array($this->as_array) or is_string($this->as_array)) {
+            $query->select($this->as_array);
+        }
+        $query->where(['in', $this->target_attribute, $ids]);
+        if ($useArrays) {
+            $query->asArray();
+        }
+        return $query->all();
     }
 }

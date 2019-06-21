@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\info\models\mongo;
+namespace Brezgalov\Yii2Mongo;
 
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\BulkWrite;
@@ -16,16 +16,16 @@ class Manager
      * Params yii2Mongo.db Default mongo
      * @return string|null
      */
-    protected static function getConnectionUri()
+    public static function getConnectionUri()
     {
-        return ArrayHelper::getValue(\Yii::$app->params, 'yii2Mongo.db', 'mongo');
+        return ArrayHelper::getValue(\Yii::$app->params, 'yii2Mongo.db', 'mongodb://@localhost:27017/mongo');
     }
 
     /**
      * Params yii2Mongo.connectionOptions Default user/pass is root/root
      * @return array
      */
-    protected static function getConnectionOptions()
+    public static function getConnectionOptions()
     {
         return ArrayHelper::getValue(\Yii::$app->params, 'yii2Mongo.connectionOptions', [
             'username' => 'root',
@@ -37,7 +37,7 @@ class Manager
      * Params yii2Mongo.connectionOptions Default []
      * @return array
      */
-    protected static function getDriverOptions()
+    public static function getDriverOptions()
     {
         return ArrayHelper::getValue(\Yii::$app->params, 'yii2Mongo.connectionOptions', []);
     }

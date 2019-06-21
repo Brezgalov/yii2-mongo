@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\info\models\mongo;
+namespace Brezgalov\Yii2Mongo;
 
 class Mongo
 {
