@@ -8,9 +8,40 @@ use MongoDB\Driver\Command;
 use MongoDB\Driver\Query;
 use MongoDB\Driver\ReadConcern;
 use MongoDB\Driver\WriteConcern;
+use yii\helpers\ArrayHelper;
 
 class Manager
 {
+    /**
+     * Params yii2Mongo.db Default mongo
+     * @return string|null
+     */
+    protected static function getConnectionUri()
+    {
+        return ArrayHelper::getValue(\Yii::$app->params, 'yii2Mongo.db', 'mongo');
+    }
+
+    /**
+     * Params yii2Mongo.connectionOptions Default user/pass is root/root
+     * @return array
+     */
+    protected static function getConnectionOptions()
+    {
+        return ArrayHelper::getValue(\Yii::$app->params, 'yii2Mongo.connectionOptions', [
+            'username' => 'root',
+            'password' => 'root',
+        ]);
+    }
+
+    /**
+     * Params yii2Mongo.connectionOptions Default []
+     * @return array
+     */
+    protected static function getDriverOptions()
+    {
+        return ArrayHelper::getValue(\Yii::$app->params, 'yii2Mongo.connectionOptions', []);
+    }
+
     /**
      * @param array $ids
      * @return array
@@ -30,10 +61,11 @@ class Manager
      */
     public static function create()
     {
-        return new \MongoDB\Driver\Manager('mongodb://@localhost:27017/slots-api-test', [
-            "username" => "root",
-            "password" => "root",
-        ]);
+        return new \MongoDB\Driver\Manager(
+            self::getConnectionUri(),
+            self::getConnectionOptions(),
+            self::getDriverOptions()
+        );
     }
 
     /**
