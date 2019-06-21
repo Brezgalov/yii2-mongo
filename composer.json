@@ -1,0 +1,26 @@
+{
+    "name": "brezgalov/yii2-mongo",
+    "description": "Slow and peaceful interface to mongo manager",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oleg Brezgalov",
+            "email": "oleg.brezgalov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "ext-mongodb": "*",
+        "yiisoft/yii2": "^2.0.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brezgalov\\Yii2Mongo\\": "src/",
+            "Brezgalov\\Yii2Mongo\\Models\\": "src/models/",
+            "Brezgalov\\Yii2Mongo\\Models\\Mutators\\": "src/models/mutators/",
+            "Brezgalov\\Yii2Mongo\\Controllers\\": "src/controllers/",
+            "Brezgalov\\Yii2Mongo\\Controllers\\Actions\\": "src/controllers/actions/"
+        }
+    }
+}
