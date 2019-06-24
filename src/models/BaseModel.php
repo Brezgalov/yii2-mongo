@@ -133,6 +133,7 @@ class BaseModel extends \yii\base\Model
      */
     public function __construct(array $config = [])
     {
+        $config = ArrayHelper::toArray($config);
         $this->mutate($config);
         foreach ($config as $key => $val) {
             if (!property_exists($this, $key)) {
