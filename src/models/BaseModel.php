@@ -133,6 +133,11 @@ class BaseModel extends \yii\base\Model
      */
     public function __construct(array $config = [])
     {
+        // MongoDB\BSON\ObjectId плохо конвертируется через ArrayHelper. Вызывает бесконечную рекурсию
+        if (array_key_exists('_id', $config) && is_object($config['_id'])) {
+            $config['_id'] = (string)$config['_id'];
+        }
+
         $config = ArrayHelper::toArray($config);
         $this->mutate($config);
         foreach ($config as $key => $val) {
